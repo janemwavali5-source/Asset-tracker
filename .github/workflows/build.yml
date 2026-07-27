@@ -15,3 +15,56 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+- name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install kivy
+          pip install pyinstaller
+
+      - name: Build Windows executable
+        run: |
+          pyinstaller --noconfirm --onefile --windowed --name "AssetTracker" main.py
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: AssetTracker-Windows
+          path: dist/AssetTracker.exe
+build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+- name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libsdl2-dev \
+            libsdl2-image-dev \
+            libsdl2-mixer-dev \
+            libsdl2-ttf-dev \
+            libportmidi-dev \
+            libswscale-dev \
+            libavformat-dev \
+            libavcodec-dev \
+            zlib1g-dev
+- name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install kivy
+          pip install pyinstaller
+
+      - name: Build Linux executable
+        run: |
+          pyinstaller --noconfirm --onefile --windowed --name "AssetTracker" main.py
+
+      - name: Upload Linux build
+        uses: actions/upload-artifact@v4
+        with:
+          name: AssetTracker-Linux
+          path: dist/AssetTracker
