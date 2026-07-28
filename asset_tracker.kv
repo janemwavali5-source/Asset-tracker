@@ -1,0 +1,236 @@
+#:kivy 2.0.0
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 30
+        spacing: 15
+        size_hint: 1, 1
+        Label:
+            text: 'Asset Tracker'
+            font_size: 32
+            size_hint_y: 0.2
+            bold: True
+        TextInput:
+            id: username
+            hint_text: 'Username'
+            multiline: False
+            size_hint_y: 0.12
+            font_size: 18
+        TextInput:
+            id: password
+            hint_text: 'Password'
+            password: True
+            multiline: False
+            size_hint_y: 0.12
+            font_size: 18
+        Button:
+            text: 'Login'
+            size_hint_y: 0.12
+            font_size: 18
+            background_color: 0.2, 0.6, 1, 1
+            on_press: root.login()
+        Button:
+            text: 'Create Account'
+            size_hint_y: 0.12
+            font_size: 18
+            background_color: 0.3, 0.7, 0.3, 1
+            on_press: root.go_to_register()
+
+<RegisterScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 30
+        spacing: 15
+        size_hint: 1, 1
+        Label:
+            text: 'Create Account'
+            font_size: 28
+            size_hint_y: 0.2
+            bold: True
+        TextInput:
+            id: username
+            hint_text: 'New Username'
+            multiline: False
+            size_hint_y: 0.12
+            font_size: 18
+        TextInput:
+            id: password
+            hint_text: 'New Password'
+            password: True
+            multiline: False
+            size_hint_y: 0.12
+            font_size: 18
+        Button:
+            text: 'Register'
+            size_hint_y: 0.12
+            font_size: 18
+            background_color: 0.2, 0.6, 1, 1
+            on_press: root.register()
+        Button:
+            text: 'Back to Login'
+            size_hint_y: 0.12
+            font_size: 18
+            on_press: root.go_to_login()
+
+<DashboardScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 12
+        size_hint: 1, 1
+        Label:
+            text: 'Dashboard'
+            font_size: 28
+            size_hint_y: 0.12
+            bold: True
+        Label:
+            id: stats
+            text: 'Loading statistics...'
+            font_size: 18
+            size_hint_y: 0.18
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+        Button:
+            text: 'Assets'
+            size_hint_y: 0.1
+            font_size: 18
+            on_press: root.manager.current = 'assets'
+        Button:
+            text: 'Employees'
+            size_hint_y: 0.1
+            font_size: 18
+            on_press: root.manager.current = 'employees'
+        Button:
+            text: 'Assignments'
+            size_hint_y: 0.1
+            font_size: 18
+            on_press: root.manager.current = 'assignments'
+        Button:
+            text: 'Toggle Dark Mode'
+            size_hint_y: 0.1
+            font_size: 16
+            on_press: root.toggle_theme()
+        Button:
+            text: 'Backup Data'
+            size_hint_y: 0.1
+            font_size: 16
+            background_color: 0.9, 0.6, 0.1, 1
+            on_press: root.backup()
+        Button:
+            text: 'Export to CSV'
+            size_hint_y: 0.1
+            font_size: 16
+            background_color: 0.2, 0.6, 0.8, 1
+            on_press: root.export_csv()
+        Button:
+            text: 'Logout'
+            size_hint_y: 0.1
+            font_size: 16
+            background_color: 0.8, 0.2, 0.2, 1
+            on_press: root.manager.current = 'login'
+
+<AssetsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 10
+        size_hint: 1, 1
+        Label:
+            text: 'Assets'
+            font_size: 26
+            size_hint_y: 0.08
+            bold: True
+        TextInput:
+            id: search
+            hint_text: 'Search assets...'
+            multiline: False
+            size_hint_y: 0.08
+            font_size: 16
+            on_text: root.filter_assets()
+        Spinner:
+            id: category_spinner
+            text: 'All Categories'
+            values: ('All Categories', 'Electronics', 'Furniture', 'Vehicle', 'Other')
+            size_hint_y: 0.08
+            on_text: root.filter_assets()
+        Button:
+            text: 'Add New Asset'
+            size_hint_y: 0.08
+            font_size: 16
+            background_color: 0.2, 0.7, 0.3, 1
+            on_press: root.add_asset()
+        ScrollView:
+            size_hint_y: 0.58
+            GridLayout:
+                id: asset_list
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 5
+                padding: 5
+        Button:
+            text: 'Back to Dashboard'
+            size_hint_y: 0.08
+            on_press: root.manager.current = 'dashboard'
+
+<EmployeesScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 10
+        size_hint: 1, 1
+        Label:
+            text: 'Employees'
+            font_size: 26
+            size_hint_y: 0.1
+            bold: True
+        Button:
+            text: 'Add Employee'
+            size_hint_y: 0.1
+            font_size: 16
+            background_color: 0.2, 0.7, 0.3, 1
+            on_press: root.add_employee()
+        ScrollView:
+            size_hint_y: 0.7
+            GridLayout:
+                id: employee_list
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 5
+        Button:
+            text: 'Back to Dashboard'
+            size_hint_y: 0.1
+            on_press: root.manager.current = 'dashboard'
+
+<AssignmentsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 10
+        size_hint: 1, 1
+        Label:
+            text: 'Assignments'
+            font_size: 26
+            size_hint_y: 0.1
+            bold: True
+        Button:
+            text: 'New Assignment'
+            size_hint_y: 0.1
+            font_size: 16
+            background_color: 0.2, 0.7, 0.3, 1
+            on_press: root.add_assignment()
+        ScrollView:
+            size_hint_y: 0.7
+            GridLayout:
+                id: assignment_list
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 5
+        Button:
+            text: 'Back to Dashboard'
+            size_hint_y: 0.1
+            on_press: root.manager.current = 'dashboard'
