@@ -17,9 +17,9 @@ jobs:
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/home/user/hostcwd \
-            -v buildozer-cache:/home/user/.buildozer \
+            -w /home/user/hostcwd \
             kivy/buildozer:latest \
-            buildozer -v android debug
+            android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
