@@ -15,9 +15,6 @@ from datetime import datetime
 import shutil
 import csv
 
-Config.set('graphics', 'width', '360')
-Config.set('graphics', 'height', '640')
-Config.set('graphics', 'resizable', False)
 
 def init_db():
     conn = sqlite3.connect('assets.db')
